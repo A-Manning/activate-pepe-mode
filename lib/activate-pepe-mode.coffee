@@ -1,13 +1,16 @@
 ActivatePepeModeView = require './activate-pepe-mode-view'
 {CompositeDisposable} = require 'atom'
-configSchema = require "./config-schema"
-path = require "path"
+configSchema = require './config-schema'
+path = require 'path'
+fs = require 'fs'
 
 module.exports = ActivatePepeMode =
   config: configSchema
   subscriptions: null
   active: false
-  pepePath: atom.config.get "activate-pepe-mode.pepePath"
+  pepePath: atom.config.get 'activate-pepe-mode.pepePath'
+  pepePath2: path.join(__dirname, '../pepes/')
+  pepeArray: []
   background: null
 
   activate: (state) ->
@@ -32,7 +35,10 @@ module.exports = ActivatePepeMode =
     @active = true
     console.log "meme magic is real"
     @setpath()
-    @setbackground @pepePath
+    #@setbackground @pepePath
+    @loadfolder @pepePath2
+    nextpepe = path.join(@pepePath2, @randompepe())
+    @setbackground nextpepe
 
   disable: ->
     @active = false
@@ -44,13 +50,22 @@ module.exports = ActivatePepeMode =
       @pepePath = @pepePath.replace(/\\/g, '/')
     console.log "pepe path set to #{@pepePath}"
 
-  setbackground: (backgroundPath) ->
+  setbackground: (imagePath) ->
     wall = 'atom-text-editor'
     elem = document.getElementsByTagName(wall)[0]
-    if backgroundPath == ''
+    if imagePath == ''
       elem.style.background = ''
       console.log "deactivate"
     else
-      elem.style.background = "url(#{backgroundPath}) no-repeat center"
-      elem.style.background.opacity = 0.0
+      elem.style.background = "url(#{imagePath}) no-repeat center"
       console.log "activate"
+
+  loadfolder: (pepePath2) ->
+    @pepeArray = fs.readdirSync pepePath2
+
+  randompepe: ->
+    numpepes = @pepeArray.length
+    if numpepes != 0
+      randomnum = Math.floor (Math.random() * numpepes)
+      randompepe = @pepeArray[randomnum]
+      randompepe
