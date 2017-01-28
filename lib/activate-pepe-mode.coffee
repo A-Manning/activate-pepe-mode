@@ -49,6 +49,8 @@ module.exports = ActivatePepeMode =
     elem = document.getElementsByTagName(wall)[0]
     if backgroundPath == ''
       elem.style.background = ''
+      console.log "deactivate"
     else
       elem.style.background = "url(#{backgroundPath}) no-repeat center"
       elem.style.background.opacity = 0.1
+      console.log "activate"
