@@ -33,9 +33,8 @@ module.exports = ActivatePepeMode =
 
   enable: ->
     @active = true
-    console.log "meme magic is real"
+    console.log "ACTIVATE PEPE MODE"
     @setpath()
-    #@setbackground @pepePath
     @loadfolder @pepePath2
     nextpepe = path.join(@pepePath2, @randompepe())
     @setbackground nextpepe
@@ -43,22 +42,23 @@ module.exports = ActivatePepeMode =
   disable: ->
     @active = false
     @setbackground ''
+    console.log 'feelsbadman.jpg'
 
   setpath: ->
     if @pepePath == undefined
       @pepePath = path.join(__dirname, '../pepes/EVJfi7d.png')
       @pepePath = @pepePath.replace(/\\/g, '/')
-    console.log "pepe path set to #{@pepePath}"
+    #console.log "pepe path set to #{@pepePath}"
 
   setbackground: (imagePath) ->
     wall = 'atom-text-editor'
     elem = document.getElementsByTagName(wall)[0]
     if imagePath == ''
       elem.style.background = ''
-      console.log "deactivate"
+      #console.log "REEEEEEEEE couldn't find image"
     else
       elem.style.background = "url(#{imagePath}) no-repeat center"
-      console.log "activate"
+
 
   loadfolder: (pepePath2) ->
     @pepeArray = fs.readdirSync pepePath2
@@ -69,3 +69,4 @@ module.exports = ActivatePepeMode =
       randomnum = Math.floor (Math.random() * numpepes)
       randompepe = @pepeArray[randomnum]
       randompepe
+    else "REEEEEE no pepes"
