@@ -4,30 +4,28 @@ configSchema = require "./config-schema"
 path = require "path"
 
 module.exports = ActivatePepeMode =
-  activatePepeModeView: null
-  modalPanel: null
-  subscriptions: null
   config: configSchema
+  subscriptions: null
+  active: false
 
   activate: (state) ->
-    @activatePepeModeView = new ActivatePepeModeView(state.activatePepeModeViewState)
-    @modalPanel = atom.workspace.addModalPanel(item: @activatePepeModeView.getElement(), visible: false)
 
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
 
     # Register command that toggles this view
-    @subscriptions.add atom.commands.add 'atom-workspace', 'activate-pepe-mode:toggle': => @toggle()
+    @subscriptions.add atom.commands.add 'atom-workspace',
+     "activate-pepe-mode:toggle": => @toggle()
+     "activate-pepe-mode:enable":  => @enable()
+     "activate-pepe-mode:disable": => @disable()
 
   deactivate: ->
-    @modalPanel.destroy()
-    @subscriptions.dispose()
-    @activatePepeModeView.destroy()
-
-  serialize: ->
-    activatePepeModeViewState: @activatePepeModeView.serialize()
+    @subscriptions?.dispose()
+    @active = false
 
   toggle: ->
+
+    if @active then @disable() else @enable()
 
     if @modalPanel.isVisible()
       # Hide the meme magic panel
@@ -68,3 +66,9 @@ module.exports = ActivatePepeMode =
       # Show pepe
       elem.style.background = "url(#{pepePath}) no-repeat center"
       elem.style.background.opacity = 0.1
+
+    enable: ->
+      @active = true
+
+    disable: ->
+      @active = false
