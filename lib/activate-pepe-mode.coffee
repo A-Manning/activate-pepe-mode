@@ -48,7 +48,7 @@ module.exports = ActivatePepeMode =
 
     pepePath = atom.config.get "activate-pepe-mode.pepePath"
     if pepePath == ""
-      pepePath = path.join(__dirname, "../lib/pepes/0049_-_KYj0UrO.jpg")
+      pepePath = path.join(__dirname, "../pepes/0049_-_KYj0UrO.jpg")
     # build the background image
 
     if elem.style.background != ''
