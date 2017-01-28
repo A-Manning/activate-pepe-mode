@@ -1,5 +1,6 @@
 {CompositeDisposable} = require 'atom'
 configSchema = require './config-schema'
+pepecanvas = require './pepe-canvas'
 path = require 'path'
 fs = require 'fs'
 
