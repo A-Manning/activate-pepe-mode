@@ -20,11 +20,6 @@ module.exports = ActivatePepeMode =
      "activate-pepe-mode:enable":  => @enable()
      "activate-pepe-mode:disable": => @disable()
 
-    if @pepePath == ""
-      @pepePath = path.join(__dirname, '../pepes/EVJfi7d.png')
-      @pepePath = pepePath.replace(/\\/g, '/')
-      console.log "pepePath is #{@pepePath}"
-
   deactivate: ->
     @subscriptions?.dispose()
     @active = false
@@ -55,6 +50,12 @@ module.exports = ActivatePepeMode =
 
   enable: ->
     @active = true
+
+    console.log @pepePath
+    if @pepePath == undefined
+      @pepePath = path.join(__dirname, '../pepes/EVJfi7d.png')
+      @pepePath = @pepePath.replace(/\\/g, '/')
+      console.log "pepePath is #{@pepePath}"
 
   disable: ->
     @active = false
