@@ -8,6 +8,7 @@ module.exports = ActivatePepeMode =
   subscriptions: null
   active: false
   pepePath: atom.config.get "activate-pepe-mode.pepePath"
+  background: null
 
   activate: (state) ->
 
@@ -25,38 +26,29 @@ module.exports = ActivatePepeMode =
     @active = false
 
   toggle: ->
-
     if @active then @disable() else @enable()
-
-    # Get the editor
-    wall = 'atom-text-editor'
-    #console.log wall
-
-    # Get list of editor properties
-    elem = document.getElementsByTagName(wall)[0]
-    #console.log elem
-    #console.log elem.style.color
-    console.log path
-
-    # build the background image
-
-    if elem.style.background != ''
-      # Hide pepe
-      elem.style.background = ''
-    else
-      # Show pepe
-      elem.style.background = "url(#{@pepePath}) no-repeat center"
-      elem.style.background.opacity = 0.1
 
   enable: ->
     @active = true
-
-    console.log @pepePath
-    if @pepePath == undefined
-      @pepePath = path.join(__dirname, '../pepes/EVJfi7d.png')
-      @pepePath = @pepePath.replace(/\\/g, '/')
-      console.log "pepePath is #{@pepePath}"
+    console.log "meme magic is real"
+    @setpath()
+    @setbackground @pepePath
 
   disable: ->
     @active = false
-    console.log "meme magic is real"
+    @setbackground ''
+
+  setpath: ->
+    if @pepePath == undefined
+      @pepePath = path.join(__dirname, '../pepes/EVJfi7d.png')
+      @pepePath = @pepePath.replace(/\\/g, '/')
+    console.log "pepe path set to #{@pepePath}"
+
+  setbackground: (backgroundPath) ->
+    wall = 'atom-text-editor'
+    elem = document.getElementsByTagName(wall)[0]
+    if backgroundPath == ''
+      elem.style.background = ''
+    else
+      elem.style.background = "url(#{backgroundPath}) no-repeat center"
+      elem.style.background.opacity = 0.1
