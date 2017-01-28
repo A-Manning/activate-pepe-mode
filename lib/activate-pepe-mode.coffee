@@ -1,4 +1,3 @@
-ActivatePepeModeView = require './activate-pepe-mode-view'
 {CompositeDisposable} = require 'atom'
 configSchema = require './config-schema'
 path = require 'path'
