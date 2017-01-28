@@ -50,6 +50,7 @@ module.exports = ActivatePepeMode =
     console.log "user pepePath is #{pepePath}"
     if pepePath == ""
       pepePath = path.join(__dirname, "../pepes/EVJfi7d.png")
+    console.log "pepePath set to #{pepePath}"
     # build the background image
 
     if elem.style.background != ''
