@@ -67,8 +67,8 @@ module.exports = ActivatePepeMode =
       elem.style.background = "url(#{pepePath}) no-repeat center"
       elem.style.background.opacity = 0.1
 
-    enable: ->
-      @active = true
+  enable: ->
+    @active = true
 
-    disable: ->
-      @active = false
+  disable: ->
+    @active = false
