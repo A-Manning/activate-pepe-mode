@@ -53,6 +53,10 @@ module.exports = ActivatePepeMode =
     console.log "pepePath set to #{pepePath}"
     # build the background image
 
+    pepe = new Image(pepePath)
+    console.log "pepe is"
+    console.log pepe
+
     if elem.style.background != ''
       # Hide pepe
       elem.style.background = ''
