@@ -1,0 +1,18 @@
+{
+  "name": "activate-pepe-mode",
+  "main": "./lib/activate-pepe-mode",
+  "version": "0.0.420",
+  "description": "Meme magic IS real",
+  "keywords": [
+  ],
+  "activationCommands": {
+    "atom-workspace": "activate-pepe-mode:toggle"
+  },
+  "repository": "https://github.com/atom/activate-pepe-mode",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+  }
+}
