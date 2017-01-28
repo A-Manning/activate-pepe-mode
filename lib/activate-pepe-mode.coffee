@@ -7,6 +7,7 @@ module.exports = ActivatePepeMode =
   config: configSchema
   subscriptions: null
   active: false
+  pepePath: atom.config.get "activate-pepe-mode.pepePath"
 
   activate: (state) ->
 
@@ -18,6 +19,11 @@ module.exports = ActivatePepeMode =
      "activate-pepe-mode:toggle": => @toggle()
      "activate-pepe-mode:enable":  => @enable()
      "activate-pepe-mode:disable": => @disable()
+
+    if @pepePath == ""
+      @pepePath = path.join(__dirname, '../pepes/EVJfi7d.png')
+      @pepePath = pepePath.replace(/\\/g, '/')
+      console.log "pepePath is #{@pepePath}"
 
   deactivate: ->
     @subscriptions?.dispose()
@@ -37,27 +43,14 @@ module.exports = ActivatePepeMode =
     #console.log elem.style.color
     console.log path
 
-    pepePath = atom.config.get "activate-pepe-mode.pepePath"
-    console.log "user pepePath is #{pepePath}"
-    if pepePath == ""
-      pepePath = path.join(__dirname, '../pepes/EVJfi7d.png')
-    console.log "pepePath set to #{pepePath}"
     # build the background image
-
-    pepe = new Image(pepePath)
-    console.log "pepe is"
-    console.log pepe
-
-    pepePath = pepePath.replace(/\\/g, '/');
-
-    console.log "new #{pepePath}"
 
     if elem.style.background != ''
       # Hide pepe
       elem.style.background = ''
     else
       # Show pepe
-      elem.style.background = "url(#{pepePath}) no-repeat center"
+      elem.style.background = "url(#{@pepePath}) no-repeat center"
       elem.style.background.opacity = 0.1
 
   enable: ->
