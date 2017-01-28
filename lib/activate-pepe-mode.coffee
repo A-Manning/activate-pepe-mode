@@ -9,7 +9,7 @@ module.exports = ActivatePepeMode =
   subscriptions: null
   active: false
   pepePath: atom.config.get 'activate-pepe-mode.pepePath'
-  pepePath2: path.join(__dirname, '../pepes/')
+  pepePath2: path.join(__dirname, '../pepes/').replace(/\\/g, '/')
   pepeArray: []
   background: null
 
@@ -46,8 +46,7 @@ module.exports = ActivatePepeMode =
 
   setpath: ->
     if @pepePath == undefined
-      @pepePath = path.join(__dirname, '../pepes/EVJfi7d.png')
-      @pepePath = @pepePath.replace(/\\/g, '/')
+      @pepePath = path.join(__dirname, '../pepes/EVJfi7d.png').replace(/\\/g, '/')
     #console.log "pepe path set to #{@pepePath}"
 
   setbackground: (imagePath) ->
