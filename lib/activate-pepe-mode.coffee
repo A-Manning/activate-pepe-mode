@@ -54,9 +54,12 @@ module.exports = ActivatePepeMode =
     elem = document.getElementsByTagName(wall)[0]
     if imagePath == ''
       elem.style.background = ''
+      elem.style.opacity = 1
       #console.log "REEEEEEEEE couldn't find image"
     else
+      # elem.style.background = "url(#{imagePath}) no-repeat center"
       elem.style.background = "url(#{imagePath}) no-repeat center"
+      elem.style.opacity = 0.1
 
   loadfolder: (pepePath2) ->
     @pepeArray = fs.readdirSync pepePath2
