@@ -36,7 +36,7 @@ module.exports = ActivatePepeMode =
     console.log "ACTIVATE PEPE MODE"
     @setpath()
     @loadfolder @pepePath2
-    nextpepe = path.join(@pepePath2, @randompepe())
+    nextpepe = path.join(@pepePath2, @randompepe()).replace(/\\/g, '/')
     @setbackground nextpepe
 
   disable: ->
@@ -57,7 +57,6 @@ module.exports = ActivatePepeMode =
       #console.log "REEEEEEEEE couldn't find image"
     else
       elem.style.background = "url(#{imagePath}) no-repeat center"
-
 
   loadfolder: (pepePath2) ->
     @pepeArray = fs.readdirSync pepePath2
