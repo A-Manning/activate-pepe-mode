@@ -52,5 +52,5 @@ module.exports = ActivatePepeMode =
       console.log "deactivate"
     else
       elem.style.background = "url(#{backgroundPath}) no-repeat center"
-      elem.style.background.opacity = 0.1
+      elem.style.background.opacity = 0.0
       console.log "activate"
