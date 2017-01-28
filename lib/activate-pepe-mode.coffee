@@ -27,13 +27,6 @@ module.exports = ActivatePepeMode =
 
     if @active then @disable() else @enable()
 
-    if @modalPanel.isVisible()
-      # Hide the meme magic panel
-      @modalPanel.hide()
-    else
-    # Show the meme magic panel
-      @modalPanel.show()
-
     # Get the editor
     wall = 'atom-text-editor'
     #console.log wall
@@ -72,3 +65,4 @@ module.exports = ActivatePepeMode =
 
   disable: ->
     @active = false
+    console.log "meme magic is real"
