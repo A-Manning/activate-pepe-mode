@@ -3,8 +3,7 @@
   "main": "./lib/activate-pepe-mode",
   "version": "0.0.420",
   "description": "Meme magic IS real",
-  "keywords": [
-  ],
+  "keywords": [],
   "activationCommands": {
     "atom-workspace": "activate-pepe-mode:toggle"
   },

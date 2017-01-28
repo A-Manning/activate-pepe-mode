@@ -57,6 +57,10 @@ module.exports = ActivatePepeMode =
     console.log "pepe is"
     console.log pepe
 
+    pepePath = pepePath.replace(/\\/g, '/');
+
+    console.log "new #{pepePath}"
+
     if elem.style.background != ''
       # Hide pepe
       elem.style.background = ''
