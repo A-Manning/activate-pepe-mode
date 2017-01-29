@@ -10,7 +10,7 @@
   "repository": "https://github.com/atom/activate-pepe-mode",
   "license": "MIT",
   "engines": {
-    "atom": ">=1.0.0 <2.0.0"
+    "atom": ">=1.13.1 <2.0.0"
   },
   "dependencies": {
   }
