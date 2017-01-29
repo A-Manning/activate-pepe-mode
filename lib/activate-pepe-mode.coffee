@@ -38,7 +38,7 @@ module.exports = ActivatePepeMode =
       editorElement.appendChild(image)
 
   setrandompepe: ->
-    console.log "loops"
+    #console.log "loops"
     @randompepe(@pepeArray)
     @setbackground path.join(@pepePath, @current_pepe).replace(/\\/g, '/')
 
@@ -63,7 +63,7 @@ module.exports = ActivatePepeMode =
     @active = false
 
   toggle: ->
-    console.log @pepePath
+    #console.log @pepePath
     if @active then @disable() else @enable()
 
   enable: ->
@@ -71,8 +71,8 @@ module.exports = ActivatePepeMode =
     console.log "ACTIVATE PEPE MODE"
     @loadfolder @pepePath
     @randompepe(@pepeArray)
-    console.log @pepePath
-    console.log @current_pepe
+    #console.log @pepePath
+    #console.log @current_pepe
     @setbackground path.join(@pepePath, @current_pepe).replace(/\\/g, '/')
     @setrandompepe()
     @change_pepe_loop()
