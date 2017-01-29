@@ -24,6 +24,8 @@ module.exports = ActivatePepeMode =
      "activate-pepe-mode:enable":  => @enable()
      "activate-pepe-mode:disable": => @disable()
 
+
+
   deactivate: ->
     @subscriptions?.dispose()
     @active = false
@@ -42,12 +44,7 @@ module.exports = ActivatePepeMode =
     @slide()
 
   slide: ->
-    setTimeout @removebackground, 1000
     setTimeout @setbackground, 1000, @nextpepe
-
-  removebackground: ->
-    imgdiv = document.getElementById('imgdiv')
-    imgdiv.parentNode.removeChild(imgdiv)
 
   disable: ->
     @active = false
@@ -61,28 +58,28 @@ module.exports = ActivatePepeMode =
 
 
   setbackground: (imagePath) ->
+    # TODO: Delete
     wall = 'atom-text-editor'
     elem = document.getElementsByTagName(wall)[0]
 
     if imagePath == ''
-      elem.style.background = ''
-      elem.style.opacity = 1
-      imgdiv = document.getElementById('imgdiv')
-      imgdiv.parentNode.removeChild(imgdiv)
+      pepediv = document.getElementById('pepediv')
+      pepediv.parentNode.removeChild(pepediv)
       #console.log "REEEEEEEEE couldn't find image"
     else
-      # elem.style.background = "url(#{imagePath}) no-repeat center"
-      #elem.style.background = "url(#{imagePath}) no-repeat center"
-      #elem.style.opacity = 0.1
-      imgdiv = document.createElement('div')
-      imgdiv.setAttribute('id','imgdiv')
-      imgdiv.setAttribute('style', 'position: fixed; top: 0; bottom: 0; margin: auto;')
-      elem.appendChild(imgdiv)
+      pepeimg = document.getElementById("pepediv")
+      if pepeimg?
+        pepeimg.parentNode.removeChild(pepeimg)
+
+      pepediv = document.createElement('div')
+      pepediv.setAttribute('id','pepediv')
+      pepediv.setAttribute('style', 'position: absolute; top: 0; right: 0; left: 0; bottom: 0; margin:auto;')
+      elem.appendChild(pepediv)
       image = document.createElement('img')
       image.setAttribute('id', 'pepe-img')
       image.setAttribute('src', imagePath)
-      image.setAttribute('style', "position: fixed; z-index: 100; opacity: 0.4; top: 0; bottom: 0; left: 0; right: 0; margin: auto;")
-      document.getElementById('imgdiv').appendChild(image)
+      image.setAttribute('style', "position: absolute; z-index: 100; opacity: 0.1; top: 0; right: 0; left: 0; bottom: 0; margin:auto;")
+      document.getElementById('pepediv').appendChild(image)
 
   loadfolder: (pepePath2) ->
     @pepeArray = fs.readdirSync pepePath2
