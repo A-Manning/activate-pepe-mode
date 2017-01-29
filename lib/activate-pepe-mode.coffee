@@ -12,6 +12,9 @@ module.exports = ActivatePepeMode =
   pepeArray: []
   background: null
   nextpepe: ""
+  terminateBack: null
+  terminateRemove: null
+  terminateRandom: null
 
   activate: (state) ->
 
@@ -42,12 +45,32 @@ module.exports = ActivatePepeMode =
     @setbackground @nextpepe
     @nextpepe = path.join(@pepePath2, @randompepe()).replace(/\\/g, '/')
     @slide()
+    #This guy doesn't seem to be changing it, double check if setInterval only does it once.
+    #The notes say otherwise but it doesn't seem to be working.
+    #Clearin
+    @nextpepe = path.join(@pepePath2, @randompepe()).replace(/\\/g, '/')
+
 
   slide: ->
-    setTimeout @setbackground, 1000, @nextpepe
+    #setInterval is supposed to continously loop these guys at these intervals.
+    #Can't figure out how to set the nextpepe
+    @terminateRandom = setInterval @nextRandom(), 1000
+    @terminateRemove = setInterval @removebackground, 1000
+    @terminateBack =  setInterval @setbackground, 1000, @nextpepe
+
+  nextRandom: ->
+    @nextpepe = path.join(@pepePath2, @randompepe()).replace(/\\/g, '/')
+
+  removebackground: ->
+    imgdiv = document.getElementById('imgdiv')
+    imgdiv.parentNode.removeChild(imgdiv)
 
   disable: ->
     @active = false
+    #This point up fiddle with it @JP
+    clearInterval(@terminateBack)
+    clearInterval(@terminateRemove)
+    clearInterval(@terminateRandom)
     @setbackground ''
     console.log 'feelsbadman.jpg'
 
@@ -56,7 +79,8 @@ module.exports = ActivatePepeMode =
       @pepePath = path.join(__dirname, '../pepes/EVJfi7d.png').replace(/\\/g, '/')
     #console.log "pepe path set to #{@pepePath}"
 
-  setbackground: (imagePath) ->
+
+setbackground: (imagePath) ->
     # TODO: Delete
     wall = 'atom-text-editor'
     elem = document.getElementsByTagName(wall)[0]
@@ -84,5 +108,4 @@ module.exports = ActivatePepeMode =
     if numpepes != 0
       randomnum = Math.floor (Math.random() * numpepes)
       randompepe = @pepeArray[randomnum]
-      randompepe
     else "REEEEEE no pepes"
