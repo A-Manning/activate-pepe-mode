@@ -56,30 +56,25 @@ module.exports = ActivatePepeMode =
       @pepePath = path.join(__dirname, '../pepes/EVJfi7d.png').replace(/\\/g, '/')
     #console.log "pepe path set to #{@pepePath}"
 
-
   setbackground: (imagePath) ->
     # TODO: Delete
     wall = 'atom-text-editor'
     elem = document.getElementsByTagName(wall)[0]
 
     if imagePath == ''
-      pepediv = document.getElementById('pepediv')
-      pepediv.parentNode.removeChild(pepediv)
+      pepeimg = document.getElementById('pepe-img')
+      pepeimg.parentNode.removeChild(pepeimg)
       #console.log "REEEEEEEEE couldn't find image"
     else
-      pepeimg = document.getElementById("pepediv")
+      pepeimg = document.getElementById("pepe-img")
       if pepeimg?
         pepeimg.parentNode.removeChild(pepeimg)
 
-      pepediv = document.createElement('div')
-      pepediv.setAttribute('id','pepediv')
-      pepediv.setAttribute('style', 'position: absolute; top: 0; right: 0; left: 0; bottom: 0; margin:auto;')
-      elem.appendChild(pepediv)
       image = document.createElement('img')
       image.setAttribute('id', 'pepe-img')
+      image.setAttribute('class', 'pepe-img')
       image.setAttribute('src', imagePath)
-      image.setAttribute('style', "position: absolute; z-index: 100; opacity: 0.1; top: 0; right: 0; left: 0; bottom: 0; margin:auto;")
-      document.getElementById('pepediv').appendChild(image)
+      elem.appendChild(image)
 
   loadfolder: (pepePath2) ->
     @pepeArray = fs.readdirSync pepePath2
