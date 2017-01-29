@@ -12,6 +12,9 @@ module.exports = ActivatePepeMode =
   pepeArray: []
   background: null
   nextpepe: ""
+  terminateBack: null
+  terminateRemove: null
+  terminateRandom: null
 
   activate: (state) ->
 
@@ -40,10 +43,21 @@ module.exports = ActivatePepeMode =
     @setbackground @nextpepe
     @nextpepe = path.join(@pepePath2, @randompepe()).replace(/\\/g, '/')
     @slide()
+    #This guy doesn't seem to be changing it, double check if setInterval only does it once.
+    #The notes say otherwise but it doesn't seem to be working.
+    #Clearin
+    @nextpepe = path.join(@pepePath2, @randompepe()).replace(/\\/g, '/')
+
 
   slide: ->
-    setTimeout @removebackground, 1000
-    setTimeout @setbackground, 1000, @nextpepe
+    #setInterval is supposed to continously loop these guys at these intervals.
+    #Can't figure out how to set the nextpepe
+    @terminateRandom = setInterval @nextRandom(), 1000
+    @terminateRemove = setInterval @removebackground, 1000
+    @terminateBack =  setInterval @setbackground, 1000, @nextpepe
+
+  nextRandom: ->
+    @nextpepe = path.join(@pepePath2, @randompepe()).replace(/\\/g, '/')
 
   removebackground: ->
     imgdiv = document.getElementById('imgdiv')
@@ -51,6 +65,10 @@ module.exports = ActivatePepeMode =
 
   disable: ->
     @active = false
+    #This point up fiddle with it @JP
+    clearInterval(@terminateBack)
+    clearInterval(@terminateRemove)
+    clearInterval(@terminateRandom)
     @setbackground ''
     console.log 'feelsbadman.jpg'
 
@@ -60,29 +78,25 @@ module.exports = ActivatePepeMode =
     #console.log "pepe path set to #{@pepePath}"
 
 
-  setbackground: (imagePath) ->
+setbackground: (imagePath) ->
+    # TODO: Delete
     wall = 'atom-text-editor'
     elem = document.getElementsByTagName(wall)[0]
 
     if imagePath == ''
-      elem.style.background = ''
-      elem.style.opacity = 1
-      imgdiv = document.getElementById('imgdiv')
-      imgdiv.parentNode.removeChild(imgdiv)
+      pepeimg = document.getElementById('pepe-img')
+      pepeimg.parentNode.removeChild(pepeimg)
       #console.log "REEEEEEEEE couldn't find image"
     else
-      # elem.style.background = "url(#{imagePath}) no-repeat center"
-      #elem.style.background = "url(#{imagePath}) no-repeat center"
-      #elem.style.opacity = 0.1
-      imgdiv = document.createElement('div')
-      imgdiv.setAttribute('id','imgdiv')
-      imgdiv.setAttribute('style', 'position: fixed; top: 0; bottom: 0; margin: auto;')
-      elem.appendChild(imgdiv)
+      pepeimg = document.getElementById("pepe-img")
+      if pepeimg?
+        pepeimg.parentNode.removeChild(pepeimg)
+
       image = document.createElement('img')
       image.setAttribute('id', 'pepe-img')
+      image.setAttribute('class', 'pepe-img')
       image.setAttribute('src', imagePath)
-      image.setAttribute('style', "position: fixed; z-index: 100; opacity: 0.4; top: 0; bottom: 0; left: 0; right: 0; margin: auto;")
-      document.getElementById('imgdiv').appendChild(image)
+      elem.appendChild(image)
 
   loadfolder: (pepePath2) ->
     @pepeArray = fs.readdirSync pepePath2
@@ -92,5 +106,4 @@ module.exports = ActivatePepeMode =
     if numpepes != 0
       randomnum = Math.floor (Math.random() * numpepes)
       randompepe = @pepeArray[randomnum]
-      randompepe
     else "REEEEEE no pepes"
