@@ -4,27 +4,28 @@ path = require 'path'
 fs = require 'fs'
 
 module.exports = ActivatePepeMode =
-  config: configSchema
   subscriptions: null
   active: false
-  pepePath: atom.config.get 'activate-pepe-mode.pepePath'
-  pepePath2: path.join(__dirname, '../pepes/').replace(/\\/g, '/')
+  pepePath: path.join(__dirname, '../pepes/').replace(/\\/g, '/')
   pepeArray: []
   pepe_loop: null
-  elem: document.getElementsByTagName('atom-text-editor')[0]
+  current_pepe:null
 
-  loadfolder: (pepePath2) ->
-    @pepeArray = fs.readdirSync pepePath2
+  loadfolder: (pepePath) ->
+    @pepeArray = fs.readdirSync pepePath
 
   randompepe: (pepeArray) ->
     @numpepes = pepeArray.length
     if @numpepes != 0
       @randomnum = Math.floor (Math.random() * @numpepes)
-      pepeArray[@randomnum]
+      @current_pepe = pepeArray[@randomnum]
     else console.log "REEEEEE no pepes"
 
   setbackground: (imagePath) ->
     # TODO: Delete
+    elem = document.getElementsByTagName('atom-text-editor')[0]
+    editor = atom.workspace.getActiveTextEditor()
+    editorElement = atom.views.getView editor
 
     pepeimg = document.getElementById('pepe-img')
     pepeimg?.parentNode.removeChild(pepeimg)
@@ -34,15 +35,14 @@ module.exports = ActivatePepeMode =
       image.setAttribute('id', 'pepe-img')
       image.setAttribute('class', 'pepe-img')
       image.setAttribute('src', imagePath)
-      @elem.appendChild(image)
+      editorElement.appendChild(image)
 
   setrandompepe: ->
     console.log "loops"
-    nextpepe = @randompepe(@pepeArray)
-    @setbackground path.join(@pepePath2, nextpepe).replace(/\\/g, '/')
+    @randompepe(@pepeArray)
+    @setbackground path.join(@pepePath, @current_pepe).replace(/\\/g, '/')
 
   activate: (state) ->
-
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
 
@@ -51,22 +51,29 @@ module.exports = ActivatePepeMode =
      "activate-pepe-mode:toggle": => @toggle()
      "activate-pepe-mode:enable":  => @enable()
      "activate-pepe-mode:disable": => @disable()
+    @activeItemSubscription = atom.workspace.onDidStopChangingActivePaneItem =>
+      @subscribeToActiveTextEditor()
+
+  subscribeToActiveTextEditor: ->
+    console.log "changed editor"
+    @setbackground path.join(@pepePath, @current_pepe).replace(/\\/g, '/')
 
   deactivate: ->
     @subscriptions?.dispose()
     @active = false
 
   toggle: ->
-    console.log @active
+    console.log @pepePath
     if @active then @disable() else @enable()
-    #console.log @active
 
   enable: ->
     @active = true
     console.log "ACTIVATE PEPE MODE"
-    @loadfolder @pepePath2
-    nextpepe = path.join(@pepePath2, @randompepe(@pepeArray)).replace(/\\/g, '/')
-    @setbackground nextpepe
+    @loadfolder @pepePath
+    @randompepe(@pepeArray)
+    console.log @pepePath
+    console.log @current_pepe
+    @setbackground path.join(@pepePath, @current_pepe).replace(/\\/g, '/')
     @setrandompepe()
     @change_pepe_loop()
 
