@@ -1,6 +1,5 @@
 {CompositeDisposable} = require 'atom'
 configSchema = require './config-schema'
-pepecanvas = require './pepe-canvas'
 path = require 'path'
 fs = require 'fs'
 
@@ -52,14 +51,26 @@ module.exports = ActivatePepeMode =
   setbackground: (imagePath) ->
     wall = 'atom-text-editor'
     elem = document.getElementsByTagName(wall)[0]
+
     if imagePath == ''
       elem.style.background = ''
       elem.style.opacity = 1
+      imgdiv = document.getElementById('imgdiv')
+      imgdiv.parentNode.removeChild(imgdiv)
       #console.log "REEEEEEEEE couldn't find image"
     else
       # elem.style.background = "url(#{imagePath}) no-repeat center"
-      elem.style.background = "url(#{imagePath}) no-repeat center"
-      elem.style.opacity = 0.1
+      #elem.style.background = "url(#{imagePath}) no-repeat center"
+      #elem.style.opacity = 0.1
+      imgdiv = document.createElement('div')
+      imgdiv.setAttribute('id','imgdiv')
+      imgdiv.setAttribute('style', 'position: fixed; top: 0; bottom: 0; margin: auto;')
+      elem.appendChild(imgdiv)
+      image = document.createElement('img')
+      image.setAttribute('id', 'pepe-img')
+      image.setAttribute('src', imagePath)
+      image.setAttribute('style', "position: fixed; z-index: 100; opacity: 0.4; top: 0; bottom: 0; left: 0; right: 0; margin: auto;")
+      document.getElementById('imgdiv').appendChild(image)
 
   loadfolder: (pepePath2) ->
     @pepeArray = fs.readdirSync pepePath2
