@@ -2,6 +2,4 @@
 
 MEME MAGIC
 
-Install with `apm link --dev`
-
-To Test, use `atom -d` or `atom --dev`
+To add your own pepes, place them in activate-pepe-mode/pepes.

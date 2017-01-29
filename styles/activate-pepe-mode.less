@@ -7,7 +7,7 @@
 atom-text-editor .pepe-img{
   z-index: 0;
   position: absolute;
-  opacity: 0.1;
+  opacity: 0.05;
   top: 0;
   right: 0;
   left: 0;
@@ -15,16 +15,17 @@ atom-text-editor .pepe-img{
   margin:auto;
   pointer-events: none;
   animation: pulse 15s infinite;
+  animation-timing-function: linear;
 }
 
 @keyframes pulse {
   0% {
-    opacity: 0;
+    opacity: 0.00;
   }
   50% {
-    opacity: 0.1;
+    opacity: 0.02;
   }
   100% {
-    opacity: 0;
+    opacity: 0.00;
   }
 }
