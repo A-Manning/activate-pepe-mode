@@ -11,6 +11,7 @@ module.exports = ActivatePepeMode =
   pepePath2: path.join(__dirname, '../pepes/').replace(/\\/g, '/')
   pepeArray: []
   background: null
+  nextpepe: ""
 
   activate: (state) ->
 
@@ -35,9 +36,14 @@ module.exports = ActivatePepeMode =
     console.log "ACTIVATE PEPE MODE"
     @setpath()
     @loadfolder @pepePath2
-    nextpepe = path.join(@pepePath2, @randompepe()).replace(/\\/g, '/')
-    @setbackground nextpepe
+    @nextpepe = path.join(@pepePath2, @randompepe()).replace(/\\/g, '/')
+    @setbackground @nextpepe
+    @nextpepe = path.join(@pepePath2, @randompepe()).replace(/\\/g, '/')
+    @slide
 
+  slide: ->
+    setTimeout @removebackground, 5000
+    setTimeout @setbackground, 5000, @nextpepe
   disable: ->
     @active = false
     @setbackground ''
@@ -47,6 +53,10 @@ module.exports = ActivatePepeMode =
     if @pepePath == undefined
       @pepePath = path.join(__dirname, '../pepes/EVJfi7d.png').replace(/\\/g, '/')
     #console.log "pepe path set to #{@pepePath}"
+
+  removebackground: ->
+    imgdiv = document.getElementById('imgdiv')
+    imgdiv.parentNode.removeChild(imgdiv)
 
   setbackground: (imagePath) ->
     wall = 'atom-text-editor'
