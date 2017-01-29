@@ -14,4 +14,17 @@ atom-text-editor .pepe-img{
   bottom: 0;
   margin:auto;
   pointer-events: none;
+  animation: pulse 15s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 0;
+  }
 }

@@ -76,7 +76,7 @@ module.exports = ActivatePepeMode =
       clearInterval(change_pepe_loop)
 
     callback = => @setrandompepe()
-    @pepe_loop = setInterval(callback, 1000)
+    @pepe_loop = setInterval(callback, 15000)
 
   disable: ->
     @active = false
