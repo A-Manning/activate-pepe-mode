@@ -36,6 +36,7 @@ module.exports = ActivatePepeMode =
       image.setAttribute('id', 'frog-img')
       image.setAttribute('class', 'frog-img')
       image.setAttribute('src', imagePath)
+
       editorElement.appendChild(image)
 
   setrandomfrog: ->
@@ -82,7 +83,7 @@ module.exports = ActivatePepeMode =
       clearInterval(change_frog_loop)
 
     callback = => @setrandomfrog()
-    @frog_loop = setInterval(callback, 15000)
+    @frog_loop = setInterval(callback, atom.config.get 'activate-pepe-mode.timing')
 
   disable: ->
     @active = false
