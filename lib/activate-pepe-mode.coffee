@@ -25,8 +25,12 @@ module.exports = ActivatePepeMode =
   setbackground: (imagePath) ->
     # TODO: Delete
     elem = document.getElementsByTagName('atom-text-editor')[0]
-    editor = atom.workspace.getActiveTextEditor()
-    editorElement = atom.views.getView editor
+    @editor = atom.workspace.getActiveTextEditor()
+
+    if not @editor
+      return
+
+    editorElement = atom.views.getView @editor
 
     frogimg = document.getElementById('frog-img')
     frogimg?.parentNode.removeChild(frogimg)
@@ -50,12 +54,14 @@ module.exports = ActivatePepeMode =
      "activate-pepe-mode:toggle": => @toggle()
      "activate-pepe-mode:enable":  => @enable()
      "activate-pepe-mode:disable": => @disable()
-    @activeItemSubscription = atom.workspace.onDidStopChangingActivePaneItem =>
+    @changePaneSubscription = atom.workspace.onDidStopChangingActivePaneItem =>
+      console.log "changed pane"
       @subscribeToActiveTextEditor()
 
   subscribeToActiveTextEditor: ->
     console.log "changed editor"
-    @setbackground path.join(@frogPath, @current_frog).replace(/\\/g, '/')
+    @enable()
+    #@setbackground path.join(@frogPath, @current_frog).replace(/\\/g, '/')
 
   deactivate: ->
     @subscriptions?.dispose()
@@ -67,7 +73,10 @@ module.exports = ActivatePepeMode =
 
   enable: ->
     @active = true
-    console.log "ACTIVATE PEPE MODE"
+    @changePaneSubscription = atom.workspace.onDidStopChangingActivePaneItem =>
+      @setbackground path.join(@frogPath, @current_frog).replace(/\\/g, '/')
+      @change_frog_loop()
+    console.log "ACTIVATE PEPE MODE!!"
 
     # set frogPath
     if (atom.config.get 'activate-pepe-mode.frogPath') != ''
